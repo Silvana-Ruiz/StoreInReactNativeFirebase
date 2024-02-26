@@ -9,6 +9,12 @@ export default function Home() {
   const navigation = useNavigation();
   const [products, setProducts] = React.useState([]);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <RN.Button title="Add" onPress={() => navigation.navigate("Add")} />
+    });
+  }, []);
+
   React.useEffect(() => {
     const collectionRef = collection(database, 'products');
     const q = query(collectionRef, orderBy('createdAt', 'desc'));
@@ -29,10 +35,29 @@ export default function Home() {
   }, []);
 
   return (
-    <>
-      <RN.Text>Products</RN.Text>
-      {products.map(product => <Product key={product.id} {...product}/>)}
-      <RN.Button title="Go to Add Screen" onPress={() => navigation.navigate('Add')} />
-    </>
+    <RN.View style={styles.container}>
+      <RN.Text style={styles.title}>Products</RN.Text>
+      {products.length > 0 ?
+        products.map(product => <Product key={product.id} {...product} />)
+        :
+        <RN.Text style={styles.noProducts}>There are currently no products</RN.Text>
+      }
+    </RN.View>
   );
 }
+
+const styles = RN.StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F5F3F9"
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    margin: 16
+  },
+  noProducts: {
+    fontSize: 20,
+    margin: 16
+  }
+});
