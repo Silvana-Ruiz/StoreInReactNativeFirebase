@@ -13,7 +13,7 @@ export default function Add() {
     name: '',
     price: 0,
     isSold: false,
-    createAt: new Date()
+    createdAt: new Date()
   });
   const [isOpen, setIsOpen] = React.useState(false);
 
