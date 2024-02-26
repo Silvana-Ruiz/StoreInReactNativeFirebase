@@ -9,7 +9,8 @@ const firebaseConfig = {
   storageBucket: Constants.expoConfig.extra.storageBucket,
   messagingSenderId: Constants.expoConfig.extra.messagingSenderId,
   appId: Constants.expoConfig.extra.appId,
+  databaseURL: Constants.expoConfig.extra.databaseURL,
 };
 
 initializeApp(firebaseConfig);
-export default database = getFirestore();
+export const database = getFirestore();

@@ -1,8 +1,13 @@
 import React from "react";
 import * as RN from "react-native";
-import EmojiPicker, { EmojiKeyboard } from "rn-emoji-keyboard";
+import EmojiPicker from "rn-emoji-keyboard";
+import { database } from "../config/fb";
+import { collection, addDoc } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function Add() {
+  const navigation = useNavigation();
   const [newItem, setNewItem] = React.useState({
     emoji: '😊',
     name: '',
@@ -12,6 +17,17 @@ export default function Add() {
   });
   const [isOpen, setIsOpen] = React.useState(false);
 
+  const onSend = async () => {
+    try {
+      const docRef = await addDoc(collection(database, 'products'), newItem);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
+
   // Function to update selected emoji
   const handlePick = (emojiObject) => {
     setNewItem({
@@ -20,9 +36,6 @@ export default function Add() {
     });
   };
 
-  const onSend = async () => {
-    
-  };
 
   return (
     <RN.View style={styles.container}>
